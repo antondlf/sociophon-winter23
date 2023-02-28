@@ -27,3 +27,16 @@ class Lexicon:
         return self.dictionary[word]['arousal']
         
         
+
+if __name__ == '__main__':
+    
+    data_path = #insert path '../Group_1/all_vowel_measurements_TOTALLY_YinLin_24Feb2023.csv'
+    word_row = # insert word_row name
+    lexicon = Lexicon()
+    
+    df = pd.read_csv(data_path)
+   
+    df['valence'] = df.word_row.map(lambda x: lexicon.valence(x))
+    df['arousal'] = df.word_row.map(lambda x: lexicon.arousal(x))
+    
+    df.to_csv('data_affect.csv')
