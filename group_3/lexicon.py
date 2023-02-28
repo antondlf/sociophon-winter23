@@ -2,6 +2,11 @@
 import os
 import pandas as pd
 import numpy as np
+import stanza
+
+# lemmatizer
+stanza.download('en', processors='tokenize, mwt, pos, lemma')
+nlp_en = stanza.Pipeline('en', processors='tokenize, lemma', lemma_pretagged=True, tokenize_pretokenized=True)
 
 # All paths used
 # Depending on where this is run you may have to change your working dir to
@@ -16,6 +21,12 @@ group_1_dir = 'Group_1'
 data_path_totally = 'Group_1/all_vowel_measurements_TOTALLY_YinLin_24Feb2023.csv'
 data_path_so = 'Group_1/UPDATED_so_with_columns.csv'
 
+
+def lemmatize_token(wrd):
+
+    doc = nlp_en(wrd.lower())
+    # function assumes single word string so 0 index
+    return doc.sentences[0].words[0].lemma
 
 class Lexicon:
     """Define class for the lexicon"""
@@ -35,11 +46,11 @@ class Lexicon:
         if type(word) == str:
 
             try:
-                return self.dictionary[word.lower()]['valence']
 
-            # Words that aren't in lexicon are likely inflected
-            # and therefore probably not adjectives
-            # worth running a lemmatizer at some point though.
+                lemma = lemmatize_token(word)
+
+                return self.dictionary[lemma]['valence']
+
             except KeyError:
                 pass
 
@@ -49,7 +60,9 @@ class Lexicon:
 
         if type(word) == str:
             try:
-                return self.dictionary[word.lower()]['arousal']
+
+                lemma = lemmatize_token(word)
+                return self.dictionary[lemma]['arousal']
 
             except KeyError:
 
