@@ -1,0 +1,94 @@
+---
+title: "voc_so_iy"
+author: "Irene Yi"
+date: '2023-02-25'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+data_root = c("/Users/ireneyi/Downloads/")
+
+adjs = read.csv(file.path(data_root, "raw_adj_tokens.csv"))
+hello <- unique(adjs)
+
+```
+
+```{r}
+hello
+```
+
+```{r}
+data = read.csv(file.path(data_root, "all_vowel_measurements_SO.csv"))
+```
+
+
+```{r}
+new_adjs <- data.frame(lapply(adjs, function(v) {
+  if (is.character(v)) return(toupper(v))
+  else return(v)
+}))
+
+hi <- unique(new_adjs)
+
+library(dplyr) 
+print(tbl_df(hi), n=3000)
+
+fol_adj <- data[which(data$fol_word %in% c("FUNNY", "IMPRESSED", "HORRIBLE", "MUCH", "GAY", "MANY", "RACIST", "BAD", "CLOSE", "DISGUSTED", "MAD", "COMMON", "UPSET", "BUSY", "GOOD", "HOT", "FAST", "INTERESTING", "CHEAP", "DIFFERENT", "COMPACT", "SPANISH", "LONG", "WEIRD", "STRANGE", "SMALL", "NATURAL", "ALIEN", "STRICT", "BUBBLY", "SHORT", "EXCITED", "CRAZY", "BASIC", "UPTIGHT", "OLD", "PEACEFUL", "LAST", "BIG", "HUGE", "INEXPENSIVE", "AMAZING", "CUTE", "BEAUTIFUL", "EMOTIONAL", "STUPID", "SMART", "QUICK", "MOST", "NICE", "SHOCKED", "LARGE", "OKAY", "EASY", "WORRIED", "LITTLE", "COMFORTABLE", "IMPORTANT", "RUDE", "IGNORANT", "SOUTHERN", "FRIENDLY", "PROUD", "COZY", "SWEET", "CHUNKY", "MOUNTAINOUS", "COOL", "UNPREDICTABLE", "UNRELIABLE", "BLATANT", "PERVASIVE", "DANGEROUS", "SCANDALOUS", "HARD", "SCARED", "FORTH", "MEXICAN", "INDEPENDENT", "FLUENT", "GLAD", "RIGHT", "DRY", "HIGH", "OFFENSIVE", "INTERESTED", "FEW", "POPULAR", "POWERFUL", "INCIDENTAL", "ROUGH", "EXPENSIVE", "DEEP", "CRAPPY", "CONSERVATIVE", "BRASH", "INSECURE", "YOUNG", "REBELLIOUS", "AFFORDABLE", "ASHAMED", "ANGRY", "SURPRISED", "VAST", "GORGEOUS", "ALLURING", "DECADENT", "GENUINE", "EXOTIC", "JUDGMENTAL", "AWKWARD", "ENVIOUS", "BORING", "FREE", "HAPPY", "MULTIDIMENSIONAL", "RANDOM", "BRIGHT", "LIBERAL", "TIRED", "UNDECIDED", "DRAMATIC", "ODD", "DIVERSE", "STUART", "HEAVY", "DULL", "FUN", "THICK", "SLOW", "SPECIAL", "DUMB", "SAFE", "LOW", "FABULOUS", "STRONG", "TASTY", "ITALIAN", "PICKY", "WORTH", "COLD", "GREEK", "GRATEFUL", "BRAZEN", "VICIOUS", "READY", "PAST", "RICH", "RAMPANT", "OBLIVIOUS", "SAME", "OVERPRICED", "AWESOME", "SICK", "TERRIBLE", "STRESSFUL", "CONFIDENT", "FULL", "FEARFUL", "RESENTFUL", "RURAL", "LO", "TINY", "BIZARRE", "SECLUDED", "QUIET", "SAD", "AGGRESSIVE", "ICONIC", "FAMILIAR", "BLUE", "ADORABLE", "EAGER", "FIRST", "FL", "HETEROSEXUAL", "APATHETIC", "INTER", "VITAL", "ALIVE", "PREDOMINANT", "RIDICULOUS", "PLENTIFUL", "VARIED", "TRIPPY", "WRONG", "WESTERN", "UNATTACHED", "VISIBLE", "PERSONAL", "FRUSTRATING", "PRIVATE", "RISKY", "TOXIC", "LUCKY", "FRUSTRATED", "VALUABLE", "FURIOUS", "SORRY", "MULTIPLE", "WHITE", "ISOLATED", "DEPENDENT", "SIMPLE", "DEFENSIVE", "RUGGED", "DIFFICULT", "CLASSIC", "UGLY", "GREEN", "OPEN", "SORROWFUL", "AFRAID", "SPECIFIC", "OBVIOUS", "OTHER", "EXTREME", "DISAPPOINTING", "CERTAIN", "SURE", "FINE", "REMOTE", "EXCITING", "CONFUSED", "TRUE", "CLEAN", "SUCCESSFUL", "PRETTY", "DISGUSTING", "ELABORATE", "DISTINCT", "POOR", "NEW", "NINTH", "PERFECT", "NUMB", "INACCURATE", "CONCERNED", "UNCLEAR", "OUTRAGEOUS", "BORED", "FOREIGN", "COMPETITIVE", "BOUNTIFUL", "INDECISIVE", "WARM", "PASSIONATE", "STRAIGHT", "FACIAL", "LOUD", "FUCKIN", "PRIMITIVE", "SHY", "FUZZY", "DEMONIC", "RECREATIONAL", "LONELY", "PRECIOUS", "UNDISCIPLINED", "EMBARRASSED", "AWESO", "ATTRACTIVE", "GLAMOROUS", "LAID", "MUGGY", "TOUGH", "CLEAR", "AMAZED", "PAINFUL", "HEALTHY", "FAMOUS", "MARVELOUS", "LONESOME", "VIETNAMESE", "BLACK", "CONGESTED", "SEVERE", "UNIQUE", "THANKFUL", "NORMAL", "SENSITIVE", "NASTY", "COMPLICATED", "WILD", "REPETITIVE", "UNFORTUNATE", "BIGOTED", "SPRAWLING", "SALTY", "JUDGEMENTAL", "DENSE", "SOFT", "DEPRESSED", "SCARCE", "SCREWY", "OUTDATED", "IMMATURE", "EMBARRASSING", "UBIQUITOUS", "SPACIOUS", "BARE", "RIGOROUS", "WELCOMING", "HELPFUL", "DISTINCTIVE", "UNFAIR", "PROHIBITIVE", "PROTECTIVE", "LATE", "DARK", "ABSTRACT", "CONVENIENT", "FASCINATING", "EXPRESSIVE", "SERIOUS", "CURIOUS", "BLIND", "PREVALENT", "TALL", "PROGRESSIVE", "INTELLIGENT", "EAST", "BITTER", "DEAR", "LIMITED", "AWARE", "OAK", "DEAD", "EARLIER", "PROFOUND", "DECENT", "HOMESICK", "UNFRIENDLY", "NOISY", "FORTUNATE", "WONDERFUL", "RELAXED", "HUMBLE", "CROWDED", "STRICK", "SENTIMENTAL", "MEANINGLESS", "DESPERATE", "WE'D", "KNITTED", "HURTFUL", "HECTIC", "MINOR", "CONTROVERSIAL", "ENLIGHTENED", "MODERN", "FRESH", "LAZY", "CREEPY", "SIMILAR", "LIVELY", "WELL", "HARSH", "SCARY", "LOWER", "POPULOUS", "EVERYDAY", "ELEMENTARY", "FLAWED", "COLORFUL", "NERVOUS", "EXCLUSIVE", "CHILL", "HMONG", "SOCIAL", "UNUSUAL", "SHADY", "ANNOYING", "RELIGIOUS", "VIOLENT", "AGRICULTURAL", "ACTIVE", "INCREDIBLE", "PACKED", "GROSS", "CRUEL", "BLANK", "HESITANT", "CORRUPT", "FANCY", "WEALTHY", "PRIOR"
+)),]
+
+```
+```{r}
+hi
+```
+
+```{r}
+first_column <- c("BE", "AM", "IS", "ARE", "BEING", "WAS", "WERE", "BEEN")
+second_column <- c("UH", "UM", "LIKE", "SP")
+
+copula_or_filler <- data.frame(first_column, second_column)
+```
+
+
+```{r}
+data$is_fol_word_adj <- ifelse(data$fol_word %in% hi$advanced, "YES", "NO")
+
+
+data
+
+# check the {BR} ones
+
+```
+```{r}
+data$is_pre_word_copula <- ifelse(data$pre_word %in% copula_or_filler$first_column, "YES", "NO")
+data$is_fol_word_filler <- ifelse(data$fol_word %in% copula_or_filler$second_column, "YES", "NO")
+
+data
+
+```
+```{r}
+
+install.packages("writexl")
+
+library("writexl")
+write_xlsx(data,"/Users/ireneyi/Downloads/so_with_columns.xlsx")
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
