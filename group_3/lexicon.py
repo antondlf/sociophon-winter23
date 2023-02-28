@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import numpy as np
 import stanza
+from sentiment_extractor import SentimentAnalyzer
 
 # lemmatizer
 stanza.download('en', processors='tokenize, mwt, pos, lemma')
@@ -27,6 +28,7 @@ def lemmatize_token(wrd):
     doc = nlp_en(wrd.lower())
     # function assumes single word string so 0 index
     return doc.sentences[0].words[0].lemma
+
 
 class Lexicon:
     """Define class for the lexicon"""
@@ -71,10 +73,11 @@ class Lexicon:
         return np.nan
     
     
-def main(data_path, lexicon):
-    
+def main(data_path):
+
     df = pd.read_csv(data_path)
 
+    lexicon = Lexicon()
     # Make sure words are lower cased
     df['valence'] = df.fol_word.map(lambda x: lexicon.valence(x))
     df['arousal'] = df.fol_word.map(lambda x: lexicon.arousal(x))
@@ -84,7 +87,5 @@ def main(data_path, lexicon):
 
 if __name__ == '__main__':
     
-    lexicon = Lexicon()    
-    
-    main(data_path_totally, lexicon).to_csv('group_3/vowels_totally_affect.csv')
-    main(data_path_so, lexicon).to_csv('group_3/vowels_so_affect.csv')
+    main(data_path_totally).to_csv('group_3/vowels_totally_affect.csv')
+    main(data_path_so).to_csv('group_3/vowels_so_affect.csv')
